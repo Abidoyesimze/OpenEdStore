@@ -21,8 +21,8 @@ const UploadFile: React.FC = () => {
   
   const { address } = useAccount();
   const lighthouseApiKey = import.meta.env.VITE_LIGHTHOUSE_API_KEY;
-  const pinataApiKey = import.meta.env.VITE_PINATA_API_KEY;
-  const pinataApiSecret = import.meta.env.VITE_PINATA_SECRET_KEY;
+  // const pinataApiKey = import.meta.env.VITE_PINATA_API_KEY;
+  // const pinataApiSecret = import.meta.env.VITE_PINATA_SECRET_KEY;
 
   const {
     uploadToFilecoin,
@@ -68,6 +68,7 @@ const UploadFile: React.FC = () => {
   // Transaction state
   const [uploadStep, setUploadStep] = useState<UploadStep>('idle');
   const [contentCID, setContentCID] = useState<string | null>(null);
+  const [localUploadProgress, setLocalUploadProgress] = useState<number>(0);
   const [coreTransactionTimeout, setCoreTransactionTimeout] = useState<NodeJS.Timeout | null>(null);
   const [storageTransactionTimeout, setStorageTransactionTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isTransactionInProgress, setIsTransactionInProgress] = useState(false);
@@ -770,11 +771,11 @@ const UploadFile: React.FC = () => {
                   </div>
 
                   {getStatusMessage() && (
-                    <div
-                      className={`mt-4 text-sm ${
-                        uploadStep === 'complete' ? 'text-green-500' : uploadStep === 'error' ? 'text-red-500' : 'text-blue-500'
-                        }`}
-                    >
+                    <div className={`mt-4 text-sm ${
+                      (uploadStep as UploadStep) === 'complete' ? 'text-green-500'
+                        : (uploadStep as UploadStep) === 'error' ? 'text-red-500'
+                        : 'text-blue-500'
+                    }`}>
                       {getStatusMessage()}
                     </div>
                   )}
